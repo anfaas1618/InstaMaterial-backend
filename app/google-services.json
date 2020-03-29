@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "663485157097",
+    "firebase_url": "https://instamagic-cd727.firebaseio.com",
+    "project_id": "instamagic-cd727",
+    "storage_bucket": "instamagic-cd727.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663485157097:android:aa6ed43c7fb4e19f1eea78",
+        "android_client_info": {
+          "package_name": "io.github.froger.instamaterial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663485157097-4iaqgrlgkkt7qmkjkiujdt0qk36h4l37.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIiMtP_tylSuWvzDoWKF2Hb7zme0PI9cw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663485157097-4iaqgrlgkkt7qmkjkiujdt0qk36h4l37.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
