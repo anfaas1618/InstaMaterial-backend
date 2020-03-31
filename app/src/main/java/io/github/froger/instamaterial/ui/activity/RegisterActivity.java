@@ -116,9 +116,8 @@ return  is_sucess[0];
                                      "null"
                                   );
         loginRef.child(user.getUid()).child("basicInfo").setValue(databaseUser);
-        HashMap<String, String> bioHash =new HashMap<String, String>();
-        bioHash.put(user.getUid(),"i love to dance");
-        loginRef.child(user.getUid()).child("bio").setValue(bioHash);
+       String  biostring="hey i am using instaclone";//TODO change it asap
+        loginRef.child(user.getUid()).child("bio").child(user.getUid()).setValue(biostring);
         loginRef.child(user.getUid()).child("followers").child("his userid").setValue("usernamewa");
         loginRef.child(user.getUid()).child("followers").child("his userid2").setValue("lucjy");
         loginRef.child(user.getUid()).child("followers").child("his userid3").setValue("dandia");

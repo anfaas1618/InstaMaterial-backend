@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import butterknife.BindView;
@@ -117,8 +118,21 @@ public class UserProfileActivity extends BaseDrawerActivity implements RevealBac
 
             }
         });
+        basicInfoRef.child(uidSaved).child("bio").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot streing:dataSnapshot.getChildren()) {
+                    String a=streing.getValue(String.class);
+                    p_bio.setText(a);
+                }
 
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         setupTabs();
         setupUserProfileGrid();
