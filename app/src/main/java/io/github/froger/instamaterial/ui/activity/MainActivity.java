@@ -54,7 +54,6 @@ public class MainActivity extends BaseDrawerActivity implements FeedAdapter.OnFe
 
         myRef.setValue("Hello, World!");
         setupFeed();
-         startActivity(new Intent(this,RegisterActivity.class));
         if (savedInstanceState == null) {
             pendingIntroAnimation = true;
         } else {

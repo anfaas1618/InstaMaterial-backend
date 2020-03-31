@@ -3,7 +3,9 @@ package io.github.froger.instamaterial.ui.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +24,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import io.github.froger.instamaterial.R;
 import io.github.froger.instamaterial.model.User;
@@ -110,7 +115,20 @@ return  is_sucess[0];
                                      user.getEmail().trim(),
                                      "null"
                                   );
-        loginRef.child(user.getUid()).setValue(databaseUser);
+        loginRef.child(user.getUid()).child("basicInfo").setValue(databaseUser);
+        HashMap<String, String> bioHash =new HashMap<String, String>();
+        bioHash.put(user.getUid(),"i love to dance");
+        loginRef.child(user.getUid()).child("bio").setValue(bioHash);
+        loginRef.child(user.getUid()).child("followers").child("his userid").setValue("usernamewa");
+        loginRef.child(user.getUid()).child("followers").child("his userid2").setValue("lucjy");
+        loginRef.child(user.getUid()).child("followers").child("his userid3").setValue("dandia");
+        loginRef.child(user.getUid()).child("following").child("his userid").setValue("usernamewa");
+        loginRef.child(user.getUid()).child("following").child("his userid2").setValue("lucjy");
+        loginRef.child(user.getUid()).child("following").child("his userid3").setValue("dandia");
+        SharedPreferences UIDsave =getSharedPreferences("UID", Context.MODE_PRIVATE);
+        SharedPreferences.Editor uidadd =UIDsave.edit();
+        uidadd.putString("UID",user.getUid().trim());
+        uidadd.apply();
 startActivity(new Intent(RegisterActivity.this, UsernameSelect.class));
 
 

@@ -1,22 +1,41 @@
 package io.github.froger.instamaterial.ui.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.logging.Logger;
+
 import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.froger.instamaterial.R;
+import io.github.froger.instamaterial.model.User;
 import io.github.froger.instamaterial.ui.adapter.UserProfileAdapter;
 import io.github.froger.instamaterial.ui.utils.CircleTransformation;
 import io.github.froger.instamaterial.ui.view.RevealBackgroundView;
@@ -38,8 +57,18 @@ public class UserProfileActivity extends BaseDrawerActivity implements RevealBac
     @BindView(R.id.tlUserProfileTabs)
     TabLayout tlUserProfileTabs;
 
-    @BindView(R.id.ivUserProfilePhoto)
-    ImageView ivUserProfilePhoto;
+    @BindView(R.id.p_userimage)
+    CircleImageView p_userimage;
+    @BindView(R.id.p_bio)
+    TextView p_bio;
+    @BindView(R.id.p_realname)
+    TextView p_realname;
+    @BindView(R.id.p_followers)
+    TextView p_followers;
+    @BindView(R.id.p_following)
+    TextView p_following;
+    @BindView(R.id.p_username)
+    TextView p_username;
     @BindView(R.id.vUserDetails)
     View vUserDetails;
     @BindView(R.id.btnFollow)
@@ -54,26 +83,42 @@ public class UserProfileActivity extends BaseDrawerActivity implements RevealBac
     private UserProfileAdapter userPhotosAdapter;
 
     public static void startUserProfileFromLocation(int[] startingLocation, Activity startingActivity) {
-        Intent intent = new Intent(startingActivity, UserProfileActivity.class);
+        Intent intent;
+        intent = new Intent(startingActivity, UserProfileActivity.class);
         intent.putExtra(ARG_REVEAL_START_LOCATION, startingLocation);
         startingActivity.startActivity(intent);
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+        FirebaseDatabase basicdatabase=FirebaseDatabase.getInstance();
+        SharedPreferences UIDsave =getSharedPreferences("UID", Context.MODE_PRIVATE);
+        String uidSaved=UIDsave.getString("UID",null);
+        DatabaseReference basicInfoRef=basicdatabase.getReference("Users");
+        Log.i("check",uidSaved.trim());
+        basicInfoRef.child(uidSaved).child("basicInfo").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-        this.avatarSize = getResources().getDimensionPixelSize(R.dimen.user_profile_avatar_size);
-        this.profilePhoto = getString(R.string.user_profile_photo);
+                    User user = dataSnapshot.getValue(User.class);
+                        p_realname.setText(user.getName());
+                        p_username.setText(user.getUsername());
 
-        Picasso.with(this)
-                .load(profilePhoto)
-                .placeholder(R.drawable.img_circle_placeholder)
-                .resize(avatarSize, avatarSize)
-                .centerCrop()
-                .transform(new CircleTransformation())
-                .into(ivUserProfilePhoto);
+
+                Picasso.with(UserProfileActivity.this).load(user.getAvatar().trim()).centerCrop().fit().into(p_userimage);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         setupTabs();
         setupUserProfileGrid();
@@ -139,14 +184,6 @@ public class UserProfileActivity extends BaseDrawerActivity implements RevealBac
     }
 
     private void animateUserProfileHeader() {
-           vUserProfileRoot.setTranslationY(-vUserProfileRoot.getHeight());
-           ivUserProfilePhoto.setTranslationY(-ivUserProfilePhoto.getHeight());
-           vUserDetails.setTranslationY(-vUserDetails.getHeight());
-           vUserStats.setAlpha(0);
 
-           vUserProfileRoot.animate().translationY(0).setDuration(300).setInterpolator(INTERPOLATOR);
-           ivUserProfilePhoto.animate().translationY(0).setDuration(300).setStartDelay(100).setInterpolator(INTERPOLATOR);
-           vUserDetails.animate().translationY(0).setDuration(300).setStartDelay(200).setInterpolator(INTERPOLATOR);
-           vUserStats.animate().alpha(1).setDuration(200).setStartDelay(400).setInterpolator(INTERPOLATOR).start();
     }
 }

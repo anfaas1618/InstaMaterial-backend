@@ -55,11 +55,14 @@
                         android:layout_height="wrap_content"
                         android:clipChildren="false">
 
-                        <ImageView
-                            android:id="@+id/ivUserProfilePhoto"
-                            android:layout_width="@dimen/user_profile_avatar_size"
-                            android:layout_height="@dimen/user_profile_avatar_size"
-                            android:layout_marginRight="16dp" />
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/p_userimage"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_gravity="center"
+                            app:civ_border_color="#FF000000"
+                            app:civ_border_width="2dp"
+                            />
 
                         <LinearLayout
                             android:id="@+id/vUserDetails"
@@ -69,6 +72,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/p_realname"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="John Smith"
@@ -76,6 +80,7 @@
                                 android:textSize="24sp" />
 
                             <TextView
+                                android:id="@+id/p_username"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="\@jsmith"
@@ -83,6 +88,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/p_bio"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Mobile development passionate."
@@ -141,6 +147,8 @@
                             android:orientation="vertical">
 
                             <TextView
+
+                                android:id="@+id/p_followers"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="396"
@@ -163,6 +171,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/p_following"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="485"

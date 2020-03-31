@@ -4,8 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +33,10 @@ public class UsernameSelect extends AppCompatActivity {
     Button btn_check;
     FirebaseAuth myauth;
     FirebaseUser user;
+
+
+    Context context;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference usernamesRef=database.getReference("usernames");
     FirebaseDatabase usersDatabase=FirebaseDatabase.getInstance();
@@ -37,6 +45,7 @@ public class UsernameSelect extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_username_select);
+
         btn_check=findViewById(R.id.btn_check_username);
         txt_username =findViewById(R.id.txt_username);
         btn_check.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +116,12 @@ public class UsernameSelect extends AppCompatActivity {
                                         user.getUid(),
                                         user.getPhotoUrl().toString(),
                                         user.getEmail(),username_try);
-                                userRef.child(user.getUid()).setValue(localUser);
+                                userRef.child(user.getUid()).child("basicInfo").setValue(localUser);
+                                SharedPreferences UsernameSave= getSharedPreferences("USERNAME", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor useredit =UsernameSave.edit();
+                                useredit.putString("USERNAME",username_try);
+                                useredit.commit();
+                                startActivity( new Intent(UsernameSelect.this,ImageProfileActivity.class));
                             }
                         });
         builder.setNegativeButton(
