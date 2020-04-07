@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -59,7 +60,7 @@ public class UserProfileActivity extends BaseDrawerActivity implements RevealBac
     TabLayout tlUserProfileTabs;
 
     @BindView(R.id.p_userimage)
-    CircleImageView p_userimage;
+    ImageView p_userimage;
     @BindView(R.id.p_bio)
     TextView p_bio;
     @BindView(R.id.p_realname)
@@ -106,11 +107,14 @@ public class UserProfileActivity extends BaseDrawerActivity implements RevealBac
 
                     User user = dataSnapshot.getValue(User.class);
                         p_realname.setText(user.getName());
-                        p_username.setText(user.getUsername());
+                        p_username.setText("@"+user.getUsername());
 
 
-                Picasso.with(UserProfileActivity.this).load(user.getAvatar().trim()).centerCrop().fit().into(p_userimage);
-
+                Picasso.with(UserProfileActivity.this)
+                        .load(user.getAvatar())
+                        .placeholder(R.drawable.dd)
+                        .transform(new CircleTransformation())
+                        .into(p_userimage);
             }
 
             @Override

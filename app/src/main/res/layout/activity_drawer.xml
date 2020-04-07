@@ -24,7 +24,9 @@
             app:headerLayout="@layout/view_global_menu_header"
             app:itemIconTint="#8b8b8b"
             app:itemTextColor="#666666"
-            app:menu="@menu/drawer_menu" />
+            app:menu="@menu/drawer_menu">
+
+        </com.google.android.material.navigation.NavigationView>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </LinearLayout>

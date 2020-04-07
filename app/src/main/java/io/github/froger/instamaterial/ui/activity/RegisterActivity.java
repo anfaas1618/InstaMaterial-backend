@@ -32,7 +32,7 @@ import io.github.froger.instamaterial.R;
 import io.github.froger.instamaterial.model.User;
 
 public class RegisterActivity extends AppCompatActivity {
-
+   static final boolean  debugmode=true;//TODO change it for production
     EditText t_email,t_password,t_name;
     TextView lnklogin;
     Button b_login;
@@ -43,6 +43,10 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        if (debugmode)
+        {
+            startActivity(new Intent(this,MainActivity.class));
+        }
         t_email=findViewById(R.id.txtEmail);
         t_name=findViewById(R.id.txtName);
         t_password=findViewById(R.id.txtPwd);
@@ -128,6 +132,8 @@ return  is_sucess[0];
         SharedPreferences.Editor uidadd =UIDsave.edit();
         uidadd.putString("UID",user.getUid().trim());
         uidadd.apply();
+        //Todo add here mysql code to store username password and image
+        //Todo after addding the usename and password set a primary key to the username
 startActivity(new Intent(RegisterActivity.this, UsernameSelect.class));
 
 
