@@ -105,12 +105,15 @@ ArrayAdapter<String> adapter;
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.i(TAG, "beforeTextChanged: "+s+start+"DD"+before+"dd"+count);
+                adapter.getFilter().filter(s);
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
                 Log.i(TAG, "beforeTextChangedd: "+s.toString());
+
             }
         });
     }
@@ -179,6 +182,10 @@ ArrayAdapter<String> adapter;
             @Override
             public void onClick(View v) {
                 if (clicked==true) {
+                    username_global.setVisibility(View.VISIBLE);
+              ImageView view=      headerView.findViewById(R.id.search_try);
+              view.setVisibility(View.INVISIBLE);
+
                     Log.i(TAG, "onClick: here we are !!");
                     Query query = database.getReference().child("usernames");
                     query.addValueEventListener(new ValueEventListener() {
@@ -194,7 +201,8 @@ ArrayAdapter<String> adapter;
                             usernames_list.setAdapter(adapter);
                                 params.height = 1200;
                                 usernames_list.setLayoutParams(params);
-
+                           view.setImageResource(R.drawable.cross);
+                            headerView.findViewById(R.id.search_try).setVisibility(View.VISIBLE);
 
 
                             clicked=false;
@@ -212,6 +220,9 @@ ArrayAdapter<String> adapter;
                     params.height = 12;
                     usernames_list.setLayoutParams(params);
                     usernames_list.setTranslationY(100);
+                    username_global.setVisibility(View.GONE);
+         ImageView     view=      headerView.findViewById(R.id.search_try);
+         view.setImageResource(R.drawable.ic_global_menu_search);
                     clicked=true;
 
                 }

@@ -32,7 +32,7 @@ import io.github.froger.instamaterial.R;
 import io.github.froger.instamaterial.model.User;
 
 public class RegisterActivity extends AppCompatActivity {
-   static final boolean  debugmode=true;//TODO change it for production
+   static final boolean  debugmode=false;//TODO change it for production
     EditText t_email,t_password,t_name;
     TextView lnklogin;
     Button b_login;
@@ -45,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         if (debugmode)
         {
-            startActivity(new Intent(this,RealRegisterActivity.class));
+            startActivity(new Intent(this,MainActivity.class));
         }
         t_email=findViewById(R.id.txtEmail);
         t_name=findViewById(R.id.txtName);

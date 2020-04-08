@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/vGlobalMenuHeader"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/ivMenuUserProfilePhoto"
@@ -21,6 +21,7 @@
         <EditText
             android:id="@+id/username_global"
             android:layout_width="wrap_content"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
@@ -38,9 +39,6 @@
 
 
     </LinearLayout>
-
-
-
         <ListView
             android:id="@+id/list_usernames"
             android:layout_width="match_parent"
