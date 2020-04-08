@@ -45,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         if (debugmode)
         {
-            startActivity(new Intent(this,MainActivity.class));
+            startActivity(new Intent(this,RealRegisterActivity.class));
         }
         t_email=findViewById(R.id.txtEmail);
         t_name=findViewById(R.id.txtName);
