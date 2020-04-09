@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
-   >
+    tools:context=".ui.activity.RealRegisterActivity">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageVIEW"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -102,6 +102,7 @@
             android:theme="@style/EditScreenTextInputLayoutStyle">
 
             <EditText
+                android:id="@+id/edit_email"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawablePadding="16dp"
@@ -121,6 +122,7 @@
             android:theme="@style/EditScreenTextInputLayoutStyle">
 
             <EditText
+                android:id="@+id/edit_pass"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:drawablePadding="16dp"
@@ -142,6 +144,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/register_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
@@ -154,6 +157,7 @@
                 android:textSize="16dp" />
 
             <Button
+                android:id="@+id/login_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"

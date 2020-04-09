@@ -5,14 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/good_morning_img"
   >
 
     <TextView
-
+        android:fontFamily="@font/gotham"
         android:id="@+id/text"
+        android:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="set an image"
+        android:text="Set an Image"
 
         android:textSize="50dp"
         android:textStyle="bold" />
@@ -35,15 +37,21 @@
             android:id="@+id/choseimg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
             android:layout_weight="1"
+            android:fontFamily="@font/gotham"
             android:padding="10dp"
             android:paddingRight="10dp"
+            android:background="@drawable/buttonshapewhitebg"
             android:text="choose file" />
 
         <Button
             android:id="@+id/uploadimg"
             android:layout_width="wrap_content"
+            android:textColor="@android:color/white"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham"
+            android:background="@drawable/buttonshapewhitebg"
             android:layout_weight="1"
             android:text="upload" />
 
@@ -51,8 +59,12 @@
             android:id="@+id/checkimage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/gotham"
             android:layout_weight="1"
+            android:background="@drawable/buttonshapewhitebg"
             android:onClick="checkimage"
+
             android:text="check image" />
     </LinearLayout>
 
@@ -60,6 +72,9 @@
         android:id="@+id/btnDoneUpload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/gotham"
+        android:background="@drawable/buttonshapewhitebg"
         android:layout_gravity="center"
         android:text="ok" />
 
