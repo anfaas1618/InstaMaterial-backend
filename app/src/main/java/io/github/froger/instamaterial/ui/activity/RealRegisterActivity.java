@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -16,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +39,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
+
 import io.github.froger.instamaterial.R;
 import io.github.froger.instamaterial.model.User;
 import io.github.froger.instamaterial.ui.utils.OnSwipeTouchListener;
@@ -42,7 +51,9 @@ import io.github.froger.instamaterial.ui.utils.OnSwipeTouchListener;
 
 public class RealRegisterActivity extends AppCompatActivity {
     static final boolean  debugmode=false;//TODO change it for production
+    private static final String TAG ="register act" ;
     EditText t_email,t_password;
+   public boolean firebaseregisterdone=false;
     Button Login_btn;
     Button Register_btn;
     FirebaseAuth loginAuth;
@@ -51,6 +62,7 @@ public class RealRegisterActivity extends AppCompatActivity {
     ImageView imageView;
     FirebaseRemoteConfig mFirebaseRemoteConfig;
     TextView textView;
+   public ProgressDialog progressDialog;
     int count = 0;
 public static  String  MysqlURL="dono";
 
@@ -154,13 +166,15 @@ public static  String  MysqlURL="dono";
     private Boolean register(String s_email, String s_name, String s_password) {
         final Boolean[] is_sucess = new Boolean[1];
         loginAuth =FirebaseAuth.getInstance();
-
+        progressDialog = new ProgressDialog(RealRegisterActivity.this);
+        progressDialog.show();
         loginAuth.createUserWithEmailAndPassword(s_email,s_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful())
                 {
                     FirebaseUser user=loginAuth.getCurrentUser();
+
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                             .setDisplayName(s_name)
                             .setPhotoUri(Uri.parse("https://i7.pngguru.com/preview/867/694/539/user-profile-default-computer-icons-network-video-recorder-avatar-cartoon-maker.jpg"))
@@ -173,6 +187,7 @@ public static  String  MysqlURL="dono";
                                 Snackbar snackbar= Snackbar.make(Register_btn, "profile created",1000 );
                                 snackbar.show();
                                 createUser(user);
+
                             }
                         });
                     }
@@ -193,6 +208,19 @@ public static  String  MysqlURL="dono";
         });
         return  is_sucess[0];
     }
+
+    private void register_mysql(String uid, String s_email, String s_password) {
+        String url=MysqlURL+
+                "/instamagic/registeract.php?uid="
+                +uid+
+                "&email="
+                +s_email+
+                "&password="
+                +s_password;
+        Log.i(TAG, "register_mysql: "+url);
+      new task_mysql_register().execute(url);
+    }
+    //anfaas-com.stackstaging.com
 
     private void createUser(FirebaseUser user) {
         User databaseUser=new User(user.getDisplayName().trim(),
@@ -215,9 +243,39 @@ public static  String  MysqlURL="dono";
         uidadd.putString("UID",user.getUid().trim());
         uidadd.apply();
         //Todo add here mysql code to store username password and image
+        firebaseregisterdone=true;
+        register_mysql(user.getUid().trim(),user.getEmail().trim(),t_password.getText().toString().trim());
         //Todo after addding the usename and password set a primary key to the username
-        startActivity(new Intent(RealRegisterActivity.this, UsernameSelect.class));
 
 
+
+
+    }
+    public class task_mysql_register extends AsyncTask<String,Void,Void>{
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressDialog.dismiss();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                Document doc = Jsoup.connect(strings[0]).get();
+                Log.i(TAG, "doInBackground: "+doc.text());
+                //TODO add a if doc==registerd sucess case
+                startActivity(new Intent(RealRegisterActivity.this, UsernameSelect.class));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
